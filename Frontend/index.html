@@ -1,12 +1,308 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Frontend/css/index.css">
-    <title>Document</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zeyra - Landing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #ffffff;
+      --muted: #6b7280;
+      --accent: #0a66ff;
+      --card-bg: #ffffff;
+      --page-max: 1100px;
+      --radius: 12px;
+      --shadow: 0 6px 24px rgba(15,23,42,0.06);
+      --text-dark: #0f172a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background:var(--bg);
+      color:var(--text-dark);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.35;
+    }
+    .wrap{max-width:var(--page-max);margin:40px auto;padding:0 28px}
+
+    header{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
+    .brand{font-weight:700;letter-spacing:1px}
+    nav{display:flex;gap:22px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:500}
+    .icons{display:flex;gap:12px;align-items:center}
+    .icon-btn{width:36px;height:36px;border-radius:8px;background:#f7f7fb;display:inline-flex;align-items:center;justify-content:center}
+    .avatar{width:36px;height:36px;border-radius:50%;object-fit:cover}
+    
+    .hero{margin-top:18px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);position:relative}
+    .hero img{width:100%;height:380px;object-fit:cover;display:block}
+    .hero-content{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px}
+    .hero h1{color:#fff;font-size:44px;margin:0;font-weight:800;text-shadow:0 6px 20px rgba(0,0,0,0.35)}
+    .hero p{color:rgba(255,255,255,0.9);margin:12px 0 18px;max-width:800px}
+    .btn-primary{background:var(--accent);color:#fff;border:none;padding:12px 20px;border-radius:10px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(10,102,255,0.24)}
+
+    h2.section-title{font-size:20px;margin:34px 0 18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+
+    .card{background:var(--card-bg);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);padding:18px}
+    .card img{width:100%;height:220px;object-fit:cover;border-radius:10px;cursor:zoom-in}
+    .card .label{display:block;text-align:center;margin-top:12px;color:var(--muted)}
+
+    .offer-card{background:transparent;border-radius:12px}
+    .offer-card .thumb{width:100%;height:260px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+    .offer-card .thumb img{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+    .offer-meta{padding-top:12px}
+    .offer-title{font-size:14px;margin:0 0 6px}
+    .offer-desc{font-size:12px;color:var(--muted);margin:0}
+
+    footer{margin:48px 0 60px;padding:40px 0;color:var(--muted);font-size:14px}
+    .footer-grid{display:flex;justify-content:space-between;align-items:center;gap:12px;max-width:1000px;margin:0 auto}
+    .footer-left{text-align:left}
+    .footer-center{text-align:center;display:flex;flex-direction:column;align-items:center}
+    .footer-right{text-align:right}
+    .footer-links a{color:var(--muted);text-decoration:none}
+    .socials{display:flex;gap:12px;justify-content:center;margin-top:8px}
+    .socials a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:#f7f7fb;text-decoration:none}
+    .socials svg{width:18px;height:18px;display:block}
+    .footer-copyright{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+
+    .img-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:2000}
+    .img-modal.open{display:flex}
+    .img-modal-overlay{position:fixed;inset:0;background:rgba(2,6,23,0.6)}
+    .img-modal-content{position:relative;max-width:900px;width:calc(100% - 40px);margin:auto;padding:18px;background:transparent;display:flex;flex-direction:column;align-items:center}
+    .img-modal-content img{width:100%;height:auto;border-radius:12px;box-shadow:var(--shadow)}
+    .img-modal-close{position:absolute;top:-8px;right:-8px;background:#fff;border-radius:999px;border:none;width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.12)}
+    @media (max-width:700px){.img-modal-content{width:95%}.img-modal-close{top:6px;right:6px}}
+
+    @media (max-width:1000px){.grid-3{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:700px){.wrap{padding:0 18px} .grid-3{grid-template-columns:1fr} .hero img{height:260px} .hero h1{font-size:30px}}
+
+    .muted{color:var(--muted)}
+  </style>
 </head>
 <body>
-    <script src="../Frontend/js/index.js"></script>
+  <div class="wrap">
+    <header>
+      <div style="display:flex;align-items:center;gap:18px">
+        <a href="../Frontend/index.html" style="display:flex;align-items:center;text-decoration:none">
+          <img src="../Docs/Logo/Logo_Zeyra_PNG.png" alt="Zeyra logo" style="height:36px;display:block">
+        </a>
+      </div>
+      <nav>
+        <a href="#">Inicio</a>
+        <a href="#">Categorías</a>
+        <a href="#">Productos</a>
+        <div class="icons">
+          <div class="icon-btn" aria-hidden>🔍</div>
+          <div class="icon-btn" aria-hidden>🤍</div>
+          <div class="icon-btn" aria-hidden>🛒</div>
+          <img class="avatar" src="images/avatar.jpg" alt="avatar">
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero" aria-label="Hero">
+      <img src="../Frontend/imgs/hero.jpg" alt="Hero banner">
+      <div class="hero-content">
+        <h1>Todo lo que quieres, en un solo clic</h1>
+        <p>Descubre una amplia gama de productos seleccionados para ti. Encuentra todo lo que necesitas, desde electrónica hasta moda, con envíos rápidos y fáciles.</p>
+        <button class="btn-primary">Comprar ahora</button>
+      </div>
+    </section>
+
+    <h2 class="section-title">Categorías destacadas</h2>
+    <section class="grid-3">
+      <div style="text-align:center">
+        <div class="card">
+          <img src="../Frontend/imgs/electronica.jpg" alt="Electrónica" data-caption="Electrónica">
+        </div>
+        <span class="label">Electrónica</span>
+      </div>
+
+      <div style="text-align:center">
+        <div class="card">
+          <img src="../Frontend/imgs/moda.jpg" alt="Moda" data-caption="Moda">
+        </div>
+        <span class="label">Moda</span>
+      </div>
+
+      <div style="text-align:center">
+        <div class="card">
+          <img src="../Frontend/imgs/hogar.jpg" alt="Hogar" data-caption="Hogar">
+        </div>
+        <span class="label">Hogar</span>
+      </div>
+    </section>
+
+    <h2 class="section-title">Ofertas especiales</h2>
+    <section class="grid-3">
+      <article class="offer-card">
+        <div class="thumb"><img src="../Frontend/imgs/smarwatch.jpg" alt="Smartwatch" data-caption="Smartwatch de última generación"></div>
+        <div class="offer-meta">
+          <h3 class="offer-title">Smartwatch de última generación</h3>
+          <p class="offer-desc muted">Descubre el futuro en tu muñeca</p>
+        </div>
+      </article>
+
+      <article class="offer-card">
+        <div class="thumb"><img src="../Frontend/imgs/coleccion de verano.jpg" alt="Colección" data-caption="Colección de verano"></div>
+        <div class="offer-meta">
+          <h3 class="offer-title">Colección de verano</h3>
+          <p class="offer-desc muted">Estilo y comodidad para tus días de sol</p>
+        </div>
+      </article>
+
+      <article class="offer-card">
+        <div class="thumb"><img src="../Frontend/imgs/minimalismo.jpg" alt="Decoración" data-caption="Decoración minimalista para el hogar"></div>
+        <div class="offer-meta">
+          <h3 class="offer-title">Decoración minimalista para el hogar</h3>
+          <p class="offer-desc muted">Transforma tu espacio con diseño y funcionalidad</p>
+        </div>
+      </article>
+    </section>
+
+    <div id="imgModal" class="img-modal" aria-hidden="true">
+      <div class="img-modal-overlay" tabindex="-1"></div>
+      <div class="img-modal-content" role="dialog" aria-modal="true">
+        <button class="img-modal-close" aria-label="Cerrar">&times;</button>
+        <img id="imgModalImg" src="" alt="">
+        <div id="imgModalCaption" class="muted" style="margin-top:10px;text-align:center"></div>
+      </div>
+    </div>
+
+
+    <footer>
+      <div class="footer-grid">
+        <div class="footer-left footer-links">
+          <a href="#" class="muted">Política de privacidad</a>
+        </div>
+
+        <div class="footer-center">
+          <a href="#" class="muted">Términos y condiciones</a>
+
+          <div class="socials" aria-hidden="false">
+            <a href="https://x.com" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M20 6.5c-.6.3-1.2.5-1.9.6.7-.4 1.2-1 1.4-1.8-.6.4-1.3.6-2.1.8C16.9 5 15.9 4.5 14.8 4.5c-1.8 0-3.2 1.5-3.2 3.3 0 .3 0 .6.1.9C8.6 8.6 6.2 7.2 4.6 5.1c-.4.7-.6 1.5-.6 2.4 0 1.2.6 2.3 1.6 2.9-.5 0-1-.2-1.4-.4v.1c0 1.9 1.3 3.6 3.1 4-.3.1-.6.1-.9.1-.2 0-.4 0-.6-.1.4 1.3 1.6 2.2 3 2.2-1.1.9-2.5 1.4-4 1.4-.3 0-.6 0-.9-.1 1.4.9 3.1 1.4 4.9 1.4 5.8 0 9-4.8 9-9V8c.6-.4 1.1-1 1.5-1.7-.6.3-1.2.5-1.8.6z" fill="#6b7280"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z" stroke="#6b7280" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" stroke="#6b7280" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="17.5" cy="6.5" r="0.6" fill="#6b7280"/>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M22 12.1C22 6.6 17.5 2 12.1 2S2.2 6.6 2.2 12.1c0 5 3.6 9.1 8.3 9.9v-7h-2.5v-2.9h2.5V9.3c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.3 0-1.7.8-1.7 1.6v1.9h2.9l-.5 2.9h-2.4v7c4.7-.8 8.3-4.9 8.3-9.9z" fill="#6b7280"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-right footer-links">
+          <a href="#" class="muted">Contacto</a>
+        </div>
+      </div>
+
+      <div class="footer-copyright">© 2025 ZEYRA. Todos los derechos reservados.</div>
+    </footer>
+  </div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    // --- Placeholders para imágenes ---
+    document.querySelectorAll('img').forEach(img => {
+      img.addEventListener('error', () => {
+        // Si la imagen falla se sustituye por un SVG con texto (no usar comillas sin escapar)
+        img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500"><rect width="100%" height="100%" fill="%23eef2ff" rx="10"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Inter,Arial" font-size="20" fill="%23707b8a">Reemplaza%20con%20tu%20imagen:%20' + encodeURIComponent(img.alt || 'imagen') + '</text></svg>';
+      });
+    });
+
+    // --- Elementos del modal ---
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('imgModalImg');
+    const modalCaption = document.getElementById('imgModalCaption');
+    const closeBtn = document.querySelector('.img-modal-close');
+    const overlay = document.querySelector('.img-modal-overlay');
+
+    if (!modal || !modalImg) {
+      console.error('No se encontró el modal (#imgModal o #imgModalImg). Revisa el HTML.');
+      return;
+    }
+
+    function openModal(src, alt) {
+      modalImg.src = src;
+      modalImg.alt = alt || '';
+      modalCaption.textContent = alt || '';
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      // limpiar src para liberar memoria (útil si era data-uri grande)
+      modalImg.src = '';
+      modalImg.alt = '';
+      modalCaption.textContent = '';
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // --- Delegación de clicks ---
+    // Selector por defecto: categorías y ofertas. Si quieres SOLO categorías usa '.card img'
+    const selector = '.card img, .thumb img';
+    document.addEventListener('click', (ev) => {
+      const clicked = ev.target.closest ? ev.target.closest(selector) : null;
+      if (!clicked) return;
+
+      // evita que el click en un enlace o botón con comportamiento distinto se dispare
+      ev.preventDefault();
+
+      // Prioriza data-large si existe (para alta resolución)
+      const hiRes = clicked.dataset.large;
+      const src = hiRes && hiRes.trim() !== '' ? hiRes : clicked.src;
+      const alt = clicked.dataset.caption || clicked.alt || '';
+
+      console.debug('Abrir modal de imagen:', { src, alt });
+      openModal(src, alt);
+    });
+
+    // Asignar cursor para mejorar UX (en caso de que se carguen después)
+    function addCursorToExisting() {
+      document.querySelectorAll(selector).forEach(img => {
+        img.style.cursor = 'zoom-in';
+      });
+    }
+    addCursorToExisting();
+
+    // Observador opcional: si se agregan nuevas imágenes dinámicamente, aplicar cursor
+    const observer = new MutationObserver(() => addCursorToExisting());
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Cierres
+    closeBtn?.addEventListener('click', closeModal);
+    overlay?.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+    console.info('Script del modal cargado correctamente.');
+  } catch (err) {
+    console.error('Error en script del modal:', err);
+  }
+});
+</script>
+
+  </script>
 </body>
 </html>
